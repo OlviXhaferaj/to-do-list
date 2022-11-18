@@ -1,23 +1,29 @@
-import logo from './logo.svg';
 import './App.css';
+import Input from './Components/Input';
+import { useState } from 'react';
+import List from './Components/List';
+import { useEffect } from 'react';
 
 function App() {
+  const data = JSON.parse(window.localStorage.getItem('list'))
+
+  const [li, setLi] = useState(data)
+  useEffect(()=>{
+
+    window.localStorage.setItem('list',JSON.stringify(li))
+    
+  }, [li])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App1">
+      <div className="App">
+      <Input li={li} setLi={setLi} />
+      {
+        li.map((item, index) => {
+          return[<List key={index} i={index} liObject={item} li={li} setLi={setLi}/>
+        ]
+        })
+      }
+      </div>
     </div>
   );
 }
